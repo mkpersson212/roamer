@@ -21,7 +21,57 @@
     <hr>
 
     <h5>Availability</h5>
-    <p class="text-muted">Availability windows will appear here in Phase 7.</p>
+    {{#if availability.length}}
+      <ul class="list-group mt-2 mb-3">
+        {{#each availability}}
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <span>
+              {{dateStr this.startDate}} &ndash; {{dateStr this.endDate}}
+              {{#if this.isAvailable}}
+                <span class="badge bg-success ms-2">Available</span>
+              {{else}}
+                <span class="badge bg-secondary ms-2">Unavailable</span>
+              {{/if}}
+            </span>
+            {{#if (eq ../currentUser.userId ../property.hostId)}}
+              <form action="/property_availability/remove" method="POST" class="d-inline">
+                <input type="hidden" name="_csrf" value="{{../_csrfToken}}">
+                <input type="hidden" name="availabilityId" value="{{this.availabilityId}}">
+                <input type="hidden" name="propertyId" value="{{../property.propertyId}}">
+                <button type="submit" class="btn btn-outline-danger btn-sm">Remove</button>
+              </form>
+            {{/if}}
+          </li>
+        {{/each}}
+      </ul>
+    {{else}}
+      <p class="text-muted mt-2">No availability windows set.</p>
+    {{/if}}
+
+    {{#if (eq currentUser.userId property.hostId)}}
+      <h6 class="mt-3">Add Availability Window</h6>
+      <form action="/property_availability/add" method="POST" class="row g-2 align-items-end mt-1">
+        <input type="hidden" name="_csrf" value="{{_csrfToken}}">
+        <input type="hidden" name="propertyId" value="{{property.propertyId}}">
+        <div class="col-auto">
+          <label class="form-label">Start Date</label>
+          <input type="date" class="form-control form-control-sm" name="startDate" required>
+        </div>
+        <div class="col-auto">
+          <label class="form-label">End Date</label>
+          <input type="date" class="form-control form-control-sm" name="endDate" required>
+        </div>
+        <div class="col-auto">
+          <div class="form-check mb-2">
+            <input class="form-check-input" type="checkbox" name="isAvailable" id="isAvailable" checked>
+            <label class="form-check-label" for="isAvailable">Available</label>
+          </div>
+        </div>
+        <div class="col-auto">
+          <button type="submit" class="btn btn-primary btn-sm mb-2">Add</button>
+        </div>
+      </form>
+    {{/if}}
   </div>
 
   <div class="col-md-4">

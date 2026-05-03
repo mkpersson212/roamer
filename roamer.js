@@ -13,6 +13,7 @@ const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const amenitiesRouter = require('./routes/amenities');
 const propertiesRouter = require('./routes/properties');
+const propertyAvailabilityRouter = require('./routes/property_availability');
 
 const app = express();
 
@@ -66,6 +67,7 @@ app.use((req, res, next) => {
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/amenities', amenitiesRouter);
+app.use('/property_availability', propertyAvailabilityRouter);
 app.use('/properties', propertiesRouter);
 
 // 404 handler

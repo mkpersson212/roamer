@@ -4,6 +4,7 @@ const express = require('express');
 const router = express.Router();
 const Property = require('../models/property');
 const PropertyAmenity = require('../models/property_amenity');
+const PropertyAvailability = require('../models/property_availability');
 const Amenity = require('../models/amenity');
 const helpers = require('./helpers');
 
@@ -23,8 +24,11 @@ router.get('/show/:id', async (req, res, next) => {
       req.session.flash = { type: 'danger', intro: 'Not found.', message: 'Property does not exist.' };
       return res.redirect(303, '/properties');
     }
-    const amenities = await PropertyAmenity.allForProperty(property.propertyId);
-    res.render('properties/show', { title: `Roamer || ${property.title}`, property, amenities });
+    const [amenities, availability] = await Promise.all([
+      PropertyAmenity.allForProperty(property.propertyId),
+      PropertyAvailability.allForProperty(property.propertyId),
+    ]);
+    res.render('properties/show', { title: `Roamer || ${property.title}`, property, amenities, availability });
   } catch (err) {
     next(err);
   }
