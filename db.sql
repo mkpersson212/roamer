@@ -1,3 +1,4 @@
+-- Active: 1774398201805@@127.0.0.1@5432
 DROP DATABASE IF EXISTS roamer;
 CREATE DATABASE roamer;
 \c roamer;

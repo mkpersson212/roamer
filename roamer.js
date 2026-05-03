@@ -10,6 +10,7 @@ const path = require('path');
 const { credentials } = require('./config');
 
 const indexRouter = require('./routes/index');
+const usersRouter = require('./routes/users');
 
 const app = express();
 
@@ -60,6 +61,7 @@ app.use((req, res, next) => {
 
 // Routes
 app.use('/', indexRouter);
+app.use('/users', usersRouter);
 
 // 404 handler
 app.use((req, res) => {
