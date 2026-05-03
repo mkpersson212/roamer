@@ -11,6 +11,7 @@ const { credentials } = require('./config');
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
+const amenitiesRouter = require('./routes/amenities');
 
 const app = express();
 
@@ -62,6 +63,7 @@ app.use((req, res, next) => {
 // Routes
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/amenities', amenitiesRouter);
 
 // 404 handler
 app.use((req, res) => {

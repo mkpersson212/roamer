@@ -1,0 +1,21 @@
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <h2>Amenities</h2>
+  {{#if currentUser}}
+    <a href="/amenities/form" class="btn btn-primary btn-sm">+ New Amenity</a>
+  {{/if}}
+</div>
+
+{{#if amenities.length}}
+  <div class="list-group">
+    {{#each amenities}}
+      <div class="list-group-item d-flex justify-content-between align-items-center">
+        <span>{{this.amenityName}}</span>
+        {{#if ../currentUser}}
+          <a href="/amenities/form?id={{this.amenityId}}" class="btn btn-outline-secondary btn-sm">Edit</a>
+        {{/if}}
+      </div>
+    {{/each}}
+  </div>
+{{else}}
+  <p class="text-muted">No amenities yet.</p>
+{{/if}}
