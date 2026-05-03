@@ -3,6 +3,8 @@
 const express = require('express');
 const router = express.Router();
 const Property = require('../models/property');
+const PropertyAmenity = require('../models/property_amenity');
+const Amenity = require('../models/amenity');
 const helpers = require('./helpers');
 
 router.get('/', async (req, res, next) => {
@@ -21,7 +23,8 @@ router.get('/show/:id', async (req, res, next) => {
       req.session.flash = { type: 'danger', intro: 'Not found.', message: 'Property does not exist.' };
       return res.redirect(303, '/properties');
     }
-    res.render('properties/show', { title: `Roamer || ${property.title}`, property });
+    const amenities = await PropertyAmenity.allForProperty(property.propertyId);
+    res.render('properties/show', { title: `Roamer || ${property.title}`, property, amenities });
   } catch (err) {
     next(err);
   }
@@ -42,7 +45,9 @@ router.get('/form', async (req, res, next) => {
         return res.redirect(303, '/properties');
       }
       templateVars.property = property;
+      templateVars.selectedAmenityIds = (await PropertyAmenity.allForProperty(property.propertyId)).map(a => a.amenityId);
     }
+    templateVars.amenities = await Amenity.all();
     res.render('properties/form', templateVars);
   } catch (err) {
     next(err);
@@ -60,13 +65,14 @@ router.post('/upsert', async (req, res, next) => {
         return res.redirect(303, '/properties');
       }
     }
-    await Property.upsert({
+    const saved = await Property.upsert({
       propertyId: req.body.propertyId || null,
       hostId: req.session.currentUser.userId,
       title: req.body.title,
       cityLocation: req.body.cityLocation,
       nightlyRate,
     });
+    await PropertyAmenity.setForProperty(saved.propertyId, req.body.amenityIds);
     req.session.flash = { type: 'success', intro: 'Saved!', message: 'Property updated.' };
     res.redirect(303, '/properties');
   } catch (err) {
