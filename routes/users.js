@@ -3,6 +3,7 @@
 const express = require('express');
 const router = express.Router();
 const User = require('../models/user');
+const Property = require('../models/property');
 const helpers = require('./helpers');
 
 router.get('/register', (req, res) => {
@@ -72,9 +73,10 @@ router.post('/logout', (req, res) => {
 router.get('/profile', async (req, res, next) => {
   if (helpers.isNotLoggedIn(req, res)) return;
   try {
+    const properties = await Property.allForHost(req.session.currentUser.userId);
     res.render('users/profile', {
       title: 'Roamer || My Dashboard',
-      properties: [],
+      properties,
     });
   } catch (err) {
     next(err);

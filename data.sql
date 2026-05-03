@@ -20,7 +20,7 @@ INSERT INTO users (first_name, last_name, email, password, salt) VALUES
 -- Properties (nightly_rate in cents)
 INSERT INTO properties (host_id, title, city_location, nightly_rate) VALUES
   (1, 'Quiet Studio with Dedicated Desk',   'Portland, OR',    9500),
-  (1, 'Bright Loft — Dual Monitor Setup',   'Austin, TX',     12500),
+  (1, 'Bright Loft - Dual Monitor Setup',    'Austin, TX',     12500),
   (2, 'Private Room in Co-Living House',    'Denver, CO',      7500),
   (2, 'Downtown Apartment with Fast WiFi',  'Chicago, IL',    11000),
   (3, 'Ergonomic Home Office Suite',        'Seattle, WA',    15000);

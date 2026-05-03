@@ -1,0 +1,33 @@
+<div class="row justify-content-center">
+  <div class="col-md-7">
+    <h2 class="mb-4">{{#if property}}Edit{{else}}New{{/if}} Property</h2>
+    <form action="/properties/upsert" method="POST">
+      <input type="hidden" name="_csrf" value="{{_csrfToken}}">
+      {{#if property}}
+        <input type="hidden" name="propertyId" value="{{property.propertyId}}">
+      {{/if}}
+
+      <div class="mb-3">
+        <label for="title" class="form-label">Title</label>
+        <input type="text" class="form-control" id="title" name="title"
+               value="{{property.title}}" required>
+      </div>
+
+      <div class="mb-3">
+        <label for="cityLocation" class="form-label">City / Location</label>
+        <input type="text" class="form-control" id="cityLocation" name="cityLocation"
+               value="{{property.cityLocation}}" required>
+      </div>
+
+      <div class="mb-3">
+        <label for="nightlyRate" class="form-label">Nightly Rate ($)</label>
+        <input type="number" class="form-control" id="nightlyRate" name="nightlyRate"
+               value="{{#if property}}{{divide property.nightlyRate 100}}{{/if}}"
+               step="0.01" min="0" required>
+      </div>
+
+      <button type="submit" class="btn btn-primary">Save Property</button>
+      <a href="/properties" class="btn btn-link">Cancel</a>
+    </form>
+  </div>
+</div>

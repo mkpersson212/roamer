@@ -12,6 +12,7 @@ const { credentials } = require('./config');
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const amenitiesRouter = require('./routes/amenities');
+const propertiesRouter = require('./routes/properties');
 
 const app = express();
 
@@ -31,6 +32,7 @@ const hbs = expressHandlebars.create({
     in:         (arr, val) => arr && arr.includes(val),
     dateStr:    (d) => d ? new Date(d).toLocaleDateString() : '',
     formatCents:(cents) => cents ? `$${(cents / 100).toFixed(2)}` : 'N/A',
+    divide:     (a, b) => a / b,
   },
 });
 
@@ -64,6 +66,7 @@ app.use((req, res, next) => {
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/amenities', amenitiesRouter);
+app.use('/properties', propertiesRouter);
 
 // 404 handler
 app.use((req, res) => {
