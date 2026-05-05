@@ -4,51 +4,41 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{{title}}</title>
-  <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
-  <div class="container">
-    <a class="navbar-brand" href="/">Roamer</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav me-auto">
-        <li class="nav-item"><a class="nav-link" href="/properties">Properties</a></li>
-        <li class="nav-item"><a class="nav-link" href="/amenities">Amenities</a></li>
-      </ul>
-      <ul class="navbar-nav">
-        {{#if currentUser}}
-          <li class="nav-item"><span class="nav-link text-light">Welcome, {{currentUser.firstName}}</span></li>
-          <li class="nav-item"><a class="nav-link" href="/users/profile">My Dashboard</a></li>
-          <li class="nav-item">
-            <form action="/users/logout" method="POST" class="d-inline">
-              <input type="hidden" name="_csrf" value="{{_csrfToken}}">
-              <button type="submit" class="btn btn-link nav-link">Logout</button>
-            </form>
-          </li>
-        {{else}}
-          <li class="nav-item"><a class="nav-link" href="/users/register">Register</a></li>
-          <li class="nav-item"><a class="nav-link" href="/users/login">Login</a></li>
-        {{/if}}
-      </ul>
-    </div>
-  </div>
+<nav>
+  <a href="/">Roamer</a>
+  <ul>
+    <li><a href="/properties">Properties</a></li>
+    <li><a href="/amenities">Amenities</a></li>
+  </ul>
+  <ul>
+    {{#if currentUser}}
+      <li><span>Welcome, {{currentUser.firstName}}</span></li>
+      <li><a href="/users/profile">My Dashboard</a></li>
+      <li>
+        <form action="/users/logout" method="POST">
+          <input type="hidden" name="_csrf" value="{{_csrfToken}}">
+          <button type="submit">Logout</button>
+        </form>
+      </li>
+    {{else}}
+      <li><a href="/users/register">Register</a></li>
+      <li><a href="/users/login">Login</a></li>
+    {{/if}}
+  </ul>
 </nav>
 
-<div class="container">
+<div>
   {{#if flash}}
-    <div class="alert alert-{{flash.type}} alert-dismissible fade show" role="alert">
+    <div role="alert">
       <strong>{{flash.intro}}</strong> {{flash.message}}
-      <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
     </div>
   {{/if}}
 
   {{{body}}}
 </div>
 
-<script src="/bootstrap/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

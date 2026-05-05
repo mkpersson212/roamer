@@ -1,35 +1,31 @@
-<div class="row">
-  <div class="col-12">
-    <h2 class="mb-1">My Dashboard</h2>
-    <p class="text-muted mb-4">{{currentUser.firstName}} {{currentUser.lastName}} &mdash; {{currentUser.email}}</p>
-  </div>
+<div>
+  <h2>My Dashboard</h2>
+  <p>{{currentUser.firstName}} {{currentUser.lastName}} &mdash; {{currentUser.email}}</p>
 </div>
 
-<div class="row">
-  <div class="col-12">
-    <div class="d-flex justify-content-between align-items-center mb-3">
-      <h4>My Listings</h4>
-      <a href="/properties/form" class="btn btn-primary btn-sm">+ New Property</a>
-    </div>
-
-    {{#if properties.length}}
-      <div class="list-group">
-        {{#each properties}}
-          <div class="list-group-item d-flex justify-content-between align-items-center">
-            <div>
-              <strong>{{this.title}}</strong>
-              <span class="text-muted ms-2">{{this.cityLocation}}</span>
-            </div>
-            <div>
-              <span class="badge bg-secondary me-2">{{formatCents this.nightlyRate}}/night</span>
-              <a href="/properties/show/{{this.propertyId}}" class="btn btn-outline-secondary btn-sm me-1">View</a>
-              <a href="/properties/form?id={{this.propertyId}}" class="btn btn-outline-primary btn-sm">Edit</a>
-            </div>
-          </div>
-        {{/each}}
-      </div>
-    {{else}}
-      <p class="text-muted">You have no listings yet. <a href="/properties/form">Create your first property.</a></p>
-    {{/if}}
+<div>
+  <div>
+    <h4>My Listings</h4>
+    <a href="/properties/form">+ New Property</a>
   </div>
+
+  {{#if properties.length}}
+    <ul>
+      {{#each properties}}
+        <li>
+          <div>
+            <strong>{{this.title}}</strong>
+            <span>{{this.cityLocation}}</span>
+          </div>
+          <div>
+            <span>{{formatCents this.nightlyRate}}/night</span>
+            <a href="/properties/show/{{this.propertyId}}">View</a>
+            <a href="/properties/form?id={{this.propertyId}}">Edit</a>
+          </div>
+        </li>
+      {{/each}}
+    </ul>
+  {{else}}
+    <p>You have no listings yet. <a href="/properties/form">Create your first property.</a></p>
+  {{/if}}
 </div>
