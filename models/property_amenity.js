@@ -2,6 +2,8 @@
 
 const db = require('../database');
 
+// Fetches all amenities linked to a property, ordered alphabetically by name.
+// Takes propertyId (integer); returns a camelized array of amenity objects.
 exports.allForProperty = async (propertyId) => {
   const { rows } = await db.getPool().query(
     `SELECT amenities.*
@@ -14,6 +16,8 @@ exports.allForProperty = async (propertyId) => {
   return db.camelize(rows);
 };
 
+// Replaces all amenities for a property using a delete-then-insert pattern.
+// Takes propertyId (integer) and amenityIds (single ID or array); returns nothing.
 exports.setForProperty = async (propertyId, amenityIds) => {
   await db.getPool().query(
     'DELETE FROM property_amenities WHERE property_id = $1', [propertyId]

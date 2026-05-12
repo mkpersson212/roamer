@@ -6,6 +6,8 @@ const PropertyAvailability = require('../models/property_availability');
 const Property = require('../models/property');
 const helpers = require('./helpers');
 
+// POST /property_availability/add — inserts a new availability window for a property; requires login and ownership.
+// Takes req (req.body: propertyId, startDate, endDate, isAvailable), res, next; redirects to the property detail page.
 router.post('/add', async (req, res, next) => {
   if (helpers.isNotLoggedIn(req, res)) return;
   try {
@@ -27,6 +29,8 @@ router.post('/add', async (req, res, next) => {
   }
 });
 
+// POST /property_availability/remove — deletes an availability window by ID; requires login and ownership.
+// Takes req (req.body: availabilityId, propertyId), res, next; redirects to the property detail page.
 router.post('/remove', async (req, res, next) => {
   if (helpers.isNotLoggedIn(req, res)) return;
   try {

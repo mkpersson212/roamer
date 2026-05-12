@@ -8,6 +8,8 @@ const PropertyAvailability = require('../models/property_availability');
 const Amenity = require('../models/amenity');
 const helpers = require('./helpers');
 
+// GET /properties — fetches all properties and renders the index listing page.
+// Takes req/res/next; returns nothing (renders properties/index or calls next(err)).
 router.get('/', async (req, res, next) => {
   try {
     const properties = await Property.all();
@@ -17,6 +19,8 @@ router.get('/', async (req, res, next) => {
   }
 });
 
+// GET /properties/show/:id — loads a single property with its amenities and availability windows.
+// Takes req (req.params.id), res, next; renders properties/show or redirects if not found.
 router.get('/show/:id', async (req, res, next) => {
   try {
     const property = await Property.get(req.params.id);
@@ -34,6 +38,8 @@ router.get('/show/:id', async (req, res, next) => {
   }
 });
 
+// GET /properties/form — renders the create/edit form; requires login and ownership when editing.
+// Takes req (optional req.query.id for edit mode), res, next; renders properties/form or redirects.
 router.get('/form', async (req, res, next) => {
   if (helpers.isNotLoggedIn(req, res)) return;
   try {
@@ -58,6 +64,8 @@ router.get('/form', async (req, res, next) => {
   }
 });
 
+// POST /properties/upsert — creates or updates a property and its amenities; requires login and ownership.
+// Takes req (req.body with property fields and amenityIds), res, next; redirects to /properties on success.
 router.post('/upsert', async (req, res, next) => {
   if (helpers.isNotLoggedIn(req, res)) return;
   try {

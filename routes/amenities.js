@@ -5,6 +5,8 @@ const router = express.Router();
 const Amenity = require('../models/amenity');
 const helpers = require('./helpers');
 
+// GET /amenities — fetches all amenities and renders the index listing page.
+// Takes req, res, next; returns nothing (renders amenities/index or calls next(err)).
 router.get('/', async (req, res, next) => {
   try {
     const amenities = await Amenity.all();
@@ -14,6 +16,8 @@ router.get('/', async (req, res, next) => {
   }
 });
 
+// GET /amenities/form — renders the create/edit form; requires login.
+// Takes req (optional req.query.id for edit mode), res, next; renders amenities/form with the existing amenity pre-populated if editing.
 router.get('/form', async (req, res, next) => {
   if (helpers.isNotLoggedIn(req, res)) return;
   try {
@@ -28,6 +32,8 @@ router.get('/form', async (req, res, next) => {
   }
 });
 
+// POST /amenities/upsert — creates or updates an amenity; requires login.
+// Takes req (req.body with amenity fields), res, next; redirects to /amenities on success.
 router.post('/upsert', async (req, res, next) => {
   if (helpers.isNotLoggedIn(req, res)) return;
   try {

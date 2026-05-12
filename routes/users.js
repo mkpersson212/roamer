@@ -6,11 +6,15 @@ const User = require('../models/user');
 const Property = require('../models/property');
 const helpers = require('./helpers');
 
+// GET /users/register — renders the registration form. Redirects to home if already logged in.
+// Takes req and res; returns nothing (renders users/register).
 router.get('/register', (req, res) => {
   if (helpers.isLoggedIn(req, res)) return;
   res.render('users/register', { title: 'Roamer || Register' });
 });
 
+// POST /users/register — creates a new user account and starts a session.
+// Takes req (req.body: firstName, lastName, email, password), res, next; redirects to home on success or back to register on duplicate email.
 router.post('/register', async (req, res, next) => {
   if (helpers.isLoggedIn(req, res)) return;
   try {
@@ -38,11 +42,15 @@ router.post('/register', async (req, res, next) => {
   }
 });
 
+// GET /users/login — renders the login form. Redirects to home if already logged in.
+// Takes req and res; returns nothing (renders users/login).
 router.get('/login', (req, res) => {
   if (helpers.isLoggedIn(req, res)) return;
   res.render('users/login', { title: 'Roamer || Login' });
 });
 
+// POST /users/login — validates credentials and starts a session if correct.
+// Takes req (req.body: email, password), res, next; redirects to home on success or back to login on failure.
 router.post('/login', async (req, res, next) => {
   if (helpers.isLoggedIn(req, res)) return;
   try {
@@ -64,6 +72,8 @@ router.post('/login', async (req, res, next) => {
   }
 });
 
+// POST /users/logout — destroys the current session and redirects to home.
+// Takes req and res; the destroy callback takes no arguments and returns nothing.
 router.post('/logout', (req, res) => {
   req.session.destroy(() => {
     res.redirect(303, '/');

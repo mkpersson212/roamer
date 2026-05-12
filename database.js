@@ -7,6 +7,8 @@ const pg = require('pg');
 const connectionString = credentials.postgres.connectionString;
 var pool;
 
+// Recursively converts all keys in obj from snake_case to camelCase.
+// Takes any value (object, array, Date, or primitive); returns the same structure with camelCased keys.
 const camelizeKeys = (obj) => {
   if (!_.isObject(obj)) {
     return obj;
@@ -23,11 +25,13 @@ const camelizeKeys = (obj) => {
 };
 
 module.exports = {
+  // Returns the shared pg.Pool instance, creating it on first call. Takes no arguments.
   getPool: () => {
     if (pool) return pool;
     pool = new pg.Pool({ connectionString });
     return pool;
   },
+  // Takes an array of DB row objects (rows) and returns a new array with all keys converted to camelCase.
   camelize: (rows) => {
     return rows.map(camelizeKeys);
   },
