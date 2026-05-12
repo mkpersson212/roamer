@@ -1,5 +1,7 @@
 \c roamer;
 
+-- Pre-filled data for display purposes. 
+
 -- Amenities
 INSERT INTO amenities (amenity_name) VALUES
   ('Backup Power'),
