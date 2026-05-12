@@ -1,7 +1,9 @@
 -- Active: 1774398201805@@127.0.0.1@5432
-DROP DATABASE IF EXISTS roamer;
-CREATE DATABASE roamer;
-\c roamer;
+
+--The three lines below are for dev env only. Commented out for prod on render.com.
+--DROP DATABASE IF EXISTS roamer;
+--CREATE DATABASE roamer;
+--\c roamer;
 
 -- Stores registered user accounts. Each row is one user who can act as a host or a guest.
 -- Columns: user_id (PK), first_name, last_name, unique email, hashed password, and salt.
